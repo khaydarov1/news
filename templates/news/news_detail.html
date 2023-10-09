@@ -1,0 +1,26 @@
+{% extends 'news/base.html' %}
+{% load static %}
+    <title>News detail</title>
+</head>
+{%block content%}
+<style>.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+.page_center{
+margin-left: auto;
+  margin-right: auto;
+  width:50%;
+}
+</style>
+<div class="page_center">
+<h1>{{ news.title}}</h1>
+<p>{{ news.publish_time}}</p>
+<img src="{{news.image.url}}" class="center">
+<p>
+    {{ news.body | linebreaks}}
+</p>
+</div>
+{%endblock content%}
