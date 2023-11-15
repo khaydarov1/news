@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html>
+
 <html>
 <head>
 <title>{% block title %} {%endblock title%}</title>
@@ -35,6 +35,12 @@
             </ul>
           </div>
           <div class="header_top_right">
+            {%if request.user.is_authenticated%}
+            <p><a href="{% url 'user_profile' %}" ><img src="{% static 'images/user.png'%}" alt="" style="height:20px"></a></p>
+            <p><a href="{% url 'logout' %}" style="color:yellow"><img src="{% static 'images/logout.png'%}" alt="" style="height:20px"></a> </p>
+            {%else %}
+            <p><a href="{% url 'login' %}" style="color:yellow"><img src="{% static 'images/login.png'%}" alt="" ></a> </p>
+            {%endif%}
             <p>{% now "jS F Y H:i" %}</p>
           </div>
         </div>
@@ -74,7 +80,6 @@
               <li><a href="#">Sympony</a></li>
             </ul>
           </li>
-
           <li><a href="{% url 'contact_page' %}">Biz bilan aloqa</a></li>
 <!--          <li><a href="{% url '404_page' %}">404 Page</a></li>-->
         </ul>

@@ -1,0 +1,23 @@
+{% extends 'news/base.html' %}
+{% load static %}
+   {%block title%}{{news.title}}{%endblock title%}
+
+
+
+{%block content%}
+
+<div style="margin-left: auto;
+  margin-right: auto;
+  width:50%;"><
+
+
+   <h2 class="text_center">Yangilikni qo'shish</h2>
+   <form method="post" enctype="multipart/form-data">{%csrf_token%}
+      {{form.as_p}}
+   <p>{{news.title | truncatewords:3}}..</p>
+      <button type="submit" class="btn btn-info ml-2">Qo'shish</button>
+   </form>
+</div>
+
+
+{%endblock content%}

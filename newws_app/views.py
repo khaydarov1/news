@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import TemplateView, ListView
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, UpdateView, DeleteView, CreateView
 
 # Create your views here.
 from .models import News, Category
@@ -115,7 +116,7 @@ class LocalNewsViews(ListView):
         context = {
             'categories': categories
         }
-        return categories
+        return context
 
     def get_queryset(self):
         news = self.model.published.all().filter(category__name='Mahalliy')
@@ -143,13 +144,10 @@ class SportNewsViews(ListView):
     model = News
     template_name = 'news/sport.html'
     context_object_name = 'sport_news'
-
-    def category(self):
-        categories = Category.objects.all()
-        context = {
-            'categories': categories
-        }
-        return render(self, context)
+    categories = Category.objects.all()
+    context = {
+        'categories': categories
+    }
 
     def get_queryset(self):
         news = self.model.published.all().filter(category__name='Sport')
@@ -171,3 +169,27 @@ class TechnoNewsViews(ListView):
     def get_queryset(self):
         news = self.model.published.all().filter(category__name='Texnologiya')
         return news
+
+
+class NewsUpdateView(UpdateView):
+    model = News
+    fields = ('title', 'body', 'image', 'category', 'status')
+    template_name = 'crud/news_edit.html'
+
+
+class NewsDeleteView(DeleteView):
+    model = News
+    template_name = 'crud/news_delete.html'
+    success_url = reverse_lazy('home_page')
+
+
+class NewsCreatrView(CreateView):
+    model = News
+    fields = ('title', 'slug', 'body', 'image', 'category', 'status')
+    template_name = 'crud/news_create.html'
+
+    class Meta:
+        ordering = ["-publish_time"]
+
+    def __str__(self):
+        return self.title

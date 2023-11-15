@@ -52,7 +52,7 @@
                   {% if forloop.first %}
                 <li>
                   <figure class="bsbig_fig"> <a href="{{mahaliy.get_absolute_url}}" class="featured_img"> <img alt="" src="{{ mahaliy.image.url }}"> <span class="overlay"></span> </a>
-                    <figcaption> <a href="{{mahaliy.get_absolute_url}}">{{local_main.title | truncatewords:5}}</a> </figcaption>
+                    <figcaption> <a href="{{mahaliy.get_absolute_url}}">{{mahaliy.title | truncatewords:5}}</a> </figcaption>
                     <p>{{mahaliy.title}}</p>
                   </figure>
                 </li>
@@ -65,8 +65,8 @@
                 {% for mahalliy in mahaliy_news %}
                   {% if forloop.counter > 1  %}
                 <li>
-                  <div class="media wow fadeInDown"> <a href="{{mahaliy.get_absolute_url}}" class="media-left"> <img alt="" src="{{ mahalliy.image.url }}"> </a>
-                    <div class="media-body"> <a href="{{mahaliy.get_absolute_url}}" class="catg_title">{{mahalliy.title}}</a> </div>
+                  <div class="media wow fadeInDown"> <a href="{{mahalliy.get_absolute_url}}" class="media-left"> <img alt="" src="{{ mahalliy.image.url }}"> </a>
+                    <div class="media-body"> <a href="{{mahalliy.get_absolute_url}}" class="catg_title">{{mahalliy.title}}</a> </div>
                   </div>
                 </li>
                   {%endif%}

@@ -1,6 +1,6 @@
 {% extends 'news/base.html' %}
 {% load static %}
-    <title>News detail</title>
+<title>News detail</title>
 </head>
 {%block content%}
 <style>.center {
@@ -16,11 +16,18 @@ margin-left: auto;
 }
 </style>
 <div class="page_center">
-<h1>{{ news.title}}</h1>
-<p>{{ news.publish_time}}</p>
-<img src="{{news.image.url}}" class="center">
-<p>
-    {{ news.body | linebreaks}}
-</p>
+    <h1>{{ news.title}}</h1>
+    <p>{{ news.publish_time}}</p>
+    <img src="{{news.image.url}}" class="center">
+    <p>
+        {{ news.body | linebreaks}}
+    </p>
+</div>
+
+<div class="card-footer text-center">
+    <a href={% url 'news_update' news.slug%}>Tahrirlash</a>|
+    <a href={% url 'news_delete' news.slug%}>O'chirish</a>|
+
+
 </div>
 {%endblock content%}
