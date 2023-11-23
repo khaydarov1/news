@@ -1,12 +1,19 @@
 {% extends 'news/base.html' %}
 {%load static%}
 
-{%block title %} Profile{%endblock title%}
+{%block title %} Profile{% endblock title%}
 
 
 {%block content %}
 
-<h3>WELCOME {{ user.username}}</h3>
+<h3>WELCOME  {{ user.username}}</h3>
+<label>Username:</label><input value="{{user.username}}" readonly placeholder="kiritilmagan">
+<label>Email: </label><input value="{{user.email}}"readonly placeholder="kiritilmagan">
+<label>Ismingiz:</label><input value="{{user.first_name}}"readonly placeholder="kiritilmagan">
+<label>Familiya:</label><input value="{{user.last_name}}"readonly placeholder="kiritilmagan">
 
 
+
+
+<h5><a href="#">Parolni almishtirish</a> </h5>
 {%endblock content%}
