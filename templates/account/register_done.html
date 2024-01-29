@@ -1,0 +1,10 @@
+{% extends 'news/base.html' %}
+{%load static%}
+{%block title%}Ro'yhatdan o'tdingiz{%endblock title%}
+
+{%block content%}
+
+<h1>{{new_user.first_name}}, tabriklaymiz ro'yhatda o'tdingiz</h1>
+
+    <p>Endi saytga <a href="{%url 'login'%}">login</a>qilishingiz mumkin  </p>
+{%endblock content%}

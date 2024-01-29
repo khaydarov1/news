@@ -1,0 +1,15 @@
+{% extends 'news/base.html' %}
+{%load static%}
+{%block title%}Foydalanuvchi ro'yhatdan o'tkazish{%endblock title%}
+
+{%block content%}
+
+<h1>Yangi foydalanuvchi ro'yhatdan o'tkazish</h1>
+    <p>Ro'yhatdan o'tish uchun quyidagi formani to'ldiring </p>
+
+    <form method="post">{%csrf_token%}
+    {{user_form.as_p}}
+        <button type="submit">Ro'yhatdan o'tish </button>
+
+    </form>
+{%endblock content%}

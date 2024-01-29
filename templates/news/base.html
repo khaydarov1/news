@@ -1,6 +1,6 @@
 {% load static %}
 
-<html>
+<body>
 <head>
 <title>{% block title %} {%endblock title%}</title>
 <meta charset="utf-8">
@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/theme.css'%}/">
 <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}/">
 </head>
+
 <body>
 <div id="preloader">
   <div id="status">&nbsp;</div>
@@ -71,15 +72,15 @@
           <li class="{% if request.path == url %}active{% endif %}" > <a href="{% url 'sport_page' %}">Sport</a></li>
 
 
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#">Android</a></li>
-              <li><a href="#">Samsung</a></li>
-              <li><a href="#">Nokia</a></li>
-              <li><a href="#">Walton Mobile</a></li>
-              <li><a href="#">Sympony</a></li>
-            </ul>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Android</a></li>
+            <li><a href="#">Samsung</a></li>
+            <li><a href="#">Nokia</a></li>
+            <li><a href="#">Walton Mobile</a></li>
+            <li><a href="#">Sympony</a></li>
+          </ul>
           <li><a href="{% url 'contact_page' %}">Biz bilan aloqa</a></li>
-           <li><a href="{% url '404_page' %}">404 Page</a></li>
+          <li><a href="{% url '404_page' %}">404 Page</a></li>
         </ul>
       </div>
     </nav>
@@ -109,8 +110,10 @@
       </div>
     </div>
   </section>
-</div>
+
 {% block content %}
+
+
 
 {% endblock content %}
 
@@ -153,6 +156,7 @@
       <p class="developer">Developed By Wpfreeware</p>
     </div>
   </footer>
+</div>
 {% block javascript %}
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/wow.min.js' %}"></script>
@@ -165,3 +169,4 @@
 <script src="{% static 'js/html5shiv.min.js'%}"></script>
 <script src="{% static 'js/respond.min.js' %}"></script>
 {% endblock javascript %}
+</body>
