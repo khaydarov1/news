@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
-from .forms import LoginForms, UserRegistrationForm
+from .forms import LoginForms, UserRegistrationForm, UserEditForm, ProfileEditForm
 from django.views.generic import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
+from .models import Profile
 
 
 def user_login(request):
@@ -50,6 +51,7 @@ def user_register(request):
                 user_form.cleaned_data["password"]
             )
             new_user.save()
+            Profile.objectd.create(user=new_user)
             context = {
                 "new_user": new_user
             }
@@ -62,7 +64,23 @@ def user_register(request):
         return render(request, "account/register.html", context)
 
 
-class SignUpView(CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'account/register.html'
+def edit_user(request):
+    if request.method == 'POST':
+        user_form = UserEditForm(instance=request.user, data=request.POST)
+        profile_form = ProfileEditForm(instance=request.user.profile,
+                                       data=request.POST,
+                                       files=request.FILES)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+        else:
+            user_form = UserEditForm(instance=request.user)
+            profile_form = ProfileEditForm(instance=request.user.profile)
+
+        return render(request, 'account/profile_edit.html', {'user_form': user_form, 'profile_form': profile_form})
+
+    # Add a default return statement for non-POST requests
+    return render(request, 'account/profile_edit.html', {'user_form': UserEditForm(instance=request.user),
+                                                         'profile_form': ProfileEditForm(
+                                                             instance=request.user.profile)})
