@@ -2,10 +2,11 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, DeleteView, CreateView
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 from .models import News, Category
 from .forms import ContactForm
+from news_project.custom_permissions import OnlyLoggedSuperUser
 
 
 def news_list(request):
@@ -171,19 +172,19 @@ class TechnoNewsViews(ListView):
         return news
 
 
-class NewsUpdateView(UpdateView):
+class NewsUpdateView(OnlyLoggedSuperUser, UpdateView):
     model = News
     fields = ('title', 'body', 'image', 'category', 'status')
     template_name = 'crud/news_edit.html'
 
 
-class NewsDeleteView(DeleteView):
+class NewsDeleteView(OnlyLoggedSuperUser, DeleteView):
     model = News
     template_name = 'crud/news_delete.html'
     success_url = reverse_lazy('home_page')
 
 
-class NewsCreatrView(CreateView):
+class NewsCreatrView(OnlyLoggedSuperUser, CreateView):
     model = News
     fields = ('title', 'slug', 'body', 'image', 'category', 'status')
     template_name = 'crud/news_create.html'
