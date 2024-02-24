@@ -36,8 +36,8 @@ def user_login(request):
         }
     return render(request, 'registration/login.html', context)
 
-@login_required
 
+@login_required
 def dashboard_view(request):
     user = request.user
     profile_info = Profile.objects.get(user=user)
@@ -46,6 +46,11 @@ def dashboard_view(request):
         'profile': profile_info
     }
     return render(request, 'pages/user_profile.html', context)
+
+
+from django.shortcuts import render
+from .forms import UserRegistrationForm
+from .models import Profile
 
 
 def user_register(request):
@@ -57,17 +62,24 @@ def user_register(request):
                 user_form.cleaned_data["password"]
             )
             new_user.save()
-            Profile.objectd.create(user=new_user)
+            Profile.objects.create(user=new_user)
             context = {
                 "new_user": new_user
             }
             return render(request, 'account/register_done.html', context)
+        else:
+            # If the form is not valid, render the form again with errors
+            context = {
+                "user_form": user_form
+            }
+            return render(request, "account/register.html", context)
     else:
         user_form = UserRegistrationForm()
         context = {
             "user_form": user_form
         }
         return render(request, "account/register.html", context)
+
 
 @login_required
 def edit_user(request):

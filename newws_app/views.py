@@ -1,11 +1,13 @@
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, DeleteView, CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 # Create your views here.
 from .models import News, Category
-from .forms import ContactForm
+from .forms import ContactForm, CommentForm
 from news_project.custom_permissions import OnlyLoggedSuperUser
 
 
@@ -19,8 +21,24 @@ def news_list(request):
 
 def news_detail(request, news):
     news = get_object_or_404(News, slug=news, status=News.Status.Published)
+    comments = news.comments.filter(active=True)
+    new_comment = None
+    if request.method == "POST":
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.news = news
+            new_comment.user = request.user
+            new_comment.save()
+            comment_form = CommentForm()
+
+    else:
+        comment_form = CommentForm()
     context = {
-        "news": news
+        "news": news,
+        'comments': comments,
+        'new_comment': new_comment,
+        'comment_form': comment_form
     }
     return render(request, "news/news_detail.html", context)
 
@@ -184,7 +202,7 @@ class NewsDeleteView(OnlyLoggedSuperUser, DeleteView):
     success_url = reverse_lazy('home_page')
 
 
-class NewsCreatrView(OnlyLoggedSuperUser, CreateView):
+class NewsCreateView(OnlyLoggedSuperUser, CreateView):
     model = News
     fields = ('title', 'slug', 'body', 'image', 'category', 'status')
     template_name = 'crud/news_create.html'
@@ -194,3 +212,13 @@ class NewsCreatrView(OnlyLoggedSuperUser, CreateView):
 
     def __str__(self):
         return self.title
+
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def admin_page_view(request):
+    admin_users = User.objects.filter(is_superuser=True)
+    context = {
+        'admin_users': admin_users
+    }
+    return render(request, 'pages/admin_page.html', context)

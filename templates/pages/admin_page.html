@@ -1,0 +1,22 @@
+{% extends "news/base.html" %}
+
+{% block title %}Admin sahifasi{% endblock %}
+
+{% block content %}
+
+<h2>Barcha amdinlar</h2>
+<table class="table table-bordered table-responsive table-striped">
+    <tr>
+    <th>Username</th>
+    <th>Ismi</th>
+    <th>Familiya</th>
+</tr>
+    {%for user in admin_users %}
+    <tr>
+        <td>{{user.username}}</td>
+        <td>{{user.first_name}}</td>
+        <td>{{user.last_name}}</td>
+    </tr>
+</table>
+{%endfor%}
+{% endblock content %}
