@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
@@ -224,4 +225,13 @@ def admin_page_view(request):
     return render(request, 'pages/admin_page.html', context)
 
 
-class SearechResultsList():
+class SearechResultsList(ListView):
+    model = News
+    template_name = 'news/search_result.html'
+    context_object_name = 'barcha_yangiliklar'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        return News.objects.filter(Q(title__icontains=query) | Q(body__icontains=query)
+
+                                   )
