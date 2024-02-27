@@ -222,3 +222,6 @@ def admin_page_view(request):
         'admin_users': admin_users
     }
     return render(request, 'pages/admin_page.html', context)
+
+
+class SearechResultsList():

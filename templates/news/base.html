@@ -80,7 +80,14 @@
             <li><a href="#">Sympony</a></li>
           </ul>
           <li><a href="{% url 'contact_page' %}">Biz bilan aloqa</a></li>
-          <li><a href="{% url '404_page' %}">404 Page</a></li>
+<!--          <li><a href="{% url '404_page' %}">404 Page</a></li>-->
+
+          <li>
+            <form method="get">
+              <input type="search" name="q" placeholder="Qidiruv..." class="form-control">
+            </form>
+          </li>
+
         </ul>
       </div>
     </nav>
