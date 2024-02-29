@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'newws_app', 'accounts',
+    'newws_app', 'accounts', 'hitcount',
 ]
 
 MIDDLEWARE = [

@@ -18,7 +18,8 @@ margin-left: auto;
 </style>
 <div class="page_center">
     <h1>{{ news.title}}</h1>
-    <p>{{ news.publish_time}}</p>
+    <p>{{ news.publish_time}} | Ko'rilganlar soni:{{news.view_count}}</p>
+    <span> </span>
     <img src="{{news.image.url}}" class="center">
     <p>
         {{ news.body | linebreaks}}

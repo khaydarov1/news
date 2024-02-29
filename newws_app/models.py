@@ -35,6 +35,7 @@ class News(models.Model):
                               default=Status.Draft,
                               )
 
+
     objects = models.Manager()
     published = PublishedManager()
 
