@@ -1,5 +1,6 @@
 {% extends 'news/base.html' %}
 {% load static %}
+{% load hitcount_tags %}
 <title>News detail</title>
 </head>
 {%block content%}
@@ -18,7 +19,7 @@ margin-left: auto;
 </style>
 <div class="page_center">
     <h1>{{ news.title}}</h1>
-    <p>{{ news.publish_time}} | Ko'rilganlar soni:{{news.view_count}}</p>
+    <p>{{ news.publish_time}} | <i class="fa fa-eye" aria-hidden="true"> {% get_hit_count for news %} | Izohlar soni:{{comment_count}}</i></p>
     <span> </span>
     <img src="{{news.image.url}}" class="center">
     <p>
@@ -36,6 +37,7 @@ margin-left: auto;
 
 </div>
 {%endif%}<br>
+<h3> Bu yangilikga {{comment_count}} ta izoh qoldirilgan</h3>
     {%for comment in comments%}
 
 

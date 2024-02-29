@@ -24,21 +24,22 @@ def news_list(request):
 
 
 def news_detail(request, news):
-    context={}
+    context = {}
     # hitcount logic
-    hit_count=get_hitcount_model().objects.get_for_objects(news)
-    hits = hit_count.hits
-    hitcontext=context['hitcount'] = {'pk': hit_count.pk}
-    hit_count_response = HitCountMixin.hit_count(request,hit_count)
-    if hit_count_response.hit_counted:
-        hits=hits+1
-        hitcontext['hit_counted']=hit_count_response.hit_counted
-        hitcontext['hit_massage']=hit_count_response.hit_massage
-        hitcontext['total_hits']=hits
-
+    # HitCountModel = get_hitcount_model()
+    # hit_count = HitCountModel.objects.get_for_object(news)
+    # hits = hit_count.hits
+    # hitcontext = context['hitcount'] = {'pk': hit_count.pk}
+    # hit_count_response = HitCountMixin.hit_count(request, hit_count)
+    # if hit_count_response.hit_counted:
+    #     hits = hits + 1
+    #     hitcontext['hit_counted'] = hit_count_response.hit_counted
+    #     hitcontext['hit_message'] = hit_count_response.hit_message
+    #     hitcontext['total_hits'] = hits
 
     news = get_object_or_404(News, slug=news, status=News.Status.Published)
     comments = news.comments.filter(active=True)
+    comment_count=comments.count()
     new_comment = None
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST)
@@ -54,6 +55,7 @@ def news_detail(request, news):
     context = {
         "news": news,
         'comments': comments,
+        'comment_count':comment_count,
         'new_comment': new_comment,
         'comment_form': comment_form
     }
