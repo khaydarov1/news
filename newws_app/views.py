@@ -39,7 +39,7 @@ def news_detail(request, news):
 
     news = get_object_or_404(News, slug=news, status=News.Status.Published)
     comments = news.comments.filter(active=True)
-    comment_count=comments.count()
+    comment_count = comments.count()
     new_comment = None
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST)
@@ -55,7 +55,7 @@ def news_detail(request, news):
     context = {
         "news": news,
         'comments': comments,
-        'comment_count':comment_count,
+        'comment_count': comment_count,
         'new_comment': new_comment,
         'comment_form': comment_form
     }
@@ -223,7 +223,7 @@ class NewsDeleteView(OnlyLoggedSuperUser, DeleteView):
 
 class NewsCreateView(OnlyLoggedSuperUser, CreateView):
     model = News
-    fields = ('title', 'slug', 'body', 'image', 'category', 'status')
+    fields = ('title', 'title_uz', 'title_ru', 'title_en', 'slug', 'body','body_uz', 'body_ru', 'body_en', 'image', 'category','status')
     template_name = 'crud/news_create.html'
 
     class Meta:
