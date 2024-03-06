@@ -25,7 +25,7 @@ def news_list(request):
 
 def news_detail(request, news):
     context = {}
-    # hitcount logic
+    # # hitcount logic
     # HitCountModel = get_hitcount_model()
     # hit_count = HitCountModel.objects.get_for_object(news)
     # hits = hit_count.hits
@@ -33,7 +33,7 @@ def news_detail(request, news):
     # hit_count_response = HitCountMixin.hit_count(request, hit_count)
     # if hit_count_response.hit_counted:
     #     hits = hits + 1
-    #     hitcontext['hit_counted'] = hit_count_response.hit_counted
+    #     hitcontext['hit_counted'] = hit_count_response.hit_countedA
     #     hitcontext['hit_message'] = hit_count_response.hit_message
     #     hitcontext['total_hits'] = hits
 
