@@ -6,10 +6,13 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, DeleteView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from hitcount.utils import get_hitcount_model
+
 # Create your views here.
 from .models import News, Category
 from .forms import ContactForm, CommentForm
 from news_project.custom_permissions import OnlyLoggedSuperUser
+from hitcount.views import HitCountDetailView, HitCountMixin
 
 
 def news_list(request):
@@ -21,8 +24,22 @@ def news_list(request):
 
 
 def news_detail(request, news):
+    context = {}
+    # # hitcount logic
+    # HitCountModel = get_hitcount_model()
+    # hit_count = HitCountModel.objects.get_for_object(news)
+    # hits = hit_count.hits
+    # hitcontext = context['hitcount'] = {'pk': hit_count.pk}
+    # hit_count_response = HitCountMixin.hit_count(request, hit_count)
+    # if hit_count_response.hit_counted:
+    #     hits = hits + 1
+    #     hitcontext['hit_counted'] = hit_count_response.hit_countedA
+    #     hitcontext['hit_message'] = hit_count_response.hit_message
+    #     hitcontext['total_hits'] = hits
+
     news = get_object_or_404(News, slug=news, status=News.Status.Published)
     comments = news.comments.filter(active=True)
+    comment_count = comments.count()
     new_comment = None
     if request.method == "POST":
         comment_form = CommentForm(data=request.POST)
@@ -38,6 +55,7 @@ def news_detail(request, news):
     context = {
         "news": news,
         'comments': comments,
+        'comment_count': comment_count,
         'new_comment': new_comment,
         'comment_form': comment_form
     }
@@ -205,7 +223,7 @@ class NewsDeleteView(OnlyLoggedSuperUser, DeleteView):
 
 class NewsCreateView(OnlyLoggedSuperUser, CreateView):
     model = News
-    fields = ('title', 'slug', 'body', 'image', 'category', 'status')
+    fields = ('title', 'title_uz', 'title_ru', 'title_en', 'slug', 'body','body_uz', 'body_ru', 'body_en', 'image', 'category','status')
     template_name = 'crud/news_create.html'
 
     class Meta:

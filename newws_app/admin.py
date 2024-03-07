@@ -19,6 +19,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(Contact)
 
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['user', 'body', 'created_time', 'active']
